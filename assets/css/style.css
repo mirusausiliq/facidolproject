@@ -1,0 +1,51 @@
+/* @font-face {
+  font-family: FakePearl-Regular;
+  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff2)
+      format("woff2"),
+    url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff)
+      format("woff");
+} */
+
+@font-face {
+  font-family: FakePearl-Regular;
+  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff2) format("woff2")
+  , url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff) format("woff");
+}
+
+@font-face {
+  font-family: FakePearl-Regular;
+  src: url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
+  unicode-range: U+0400-045F;
+}
+
+body {
+  font-size: 18px;
+  font-family: FakePearl-Regular, Times, serif;
+}
+
+.fa-moon {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.navbar-toggler {
+  padding-top: 13.625px;
+  padding-bottom: 13.625px;
+}
+
+.nav-item {
+  align-content: center;
+  text-align: center;
+  font-size: 1.25em;
+}
+
+.backdrop-filter {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.magic {
+  background-image: linear-gradient(90deg,rgb(54, 152, 194),rgb(215, 0, 107)); 
+  -webkit-background-clip: text; 
+  color: transparent;
+}
