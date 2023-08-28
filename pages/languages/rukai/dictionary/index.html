@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <title id="title">Facidol Project - Rukai Dictionary</title>
+    <link href="../../../../assets/image/favicon.ico" rel="icon" />
+
+    <!-- og -->
+    <meta property="og:url" content="https://mirusausiliq.com/facidolproject/" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Facidol Project - Rukai Dictionary" />
+    <meta
+      property="og:description"
+      content="Online Formosan Language Learning Community - Rukai Dictionary"
+    />
+    <meta property="og:image" content="https://i.imgur.com/wRJhwP0.gif" />
+    <meta property="og:image:width" content="auto" />
+    <meta property="og:image:height" content="auto" />
+    <meta
+      name="keywords"
+      content="Dictionary, Treasury, Formosan Language, Amis, Atayal, Bunun, Kanakanavu, Paiwan, ..."
+    />
+    <meta
+      name="description"
+      content="Online Formosan Languages Learning Community - Rukai Dictionary"
+    />
+
+    <!-- 核心：Tocas UI -->
+    <!--
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.4/tocas.min.css"
+    />-->
+    <!--
+    <link rel="stylesheet" href="./assets/tocasui/tocas.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.4/tocas.min.js"></script>
+    -->
+    <!-- 字體：Noto Sans TC -->
+    <!--
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />-->
+
+    <!-- Local -->
+    <link rel="stylesheet" href="../../../../assets/styles/style.css" />
+
+    <!-- Minified version -->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+
+    <!-- JQUERY -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <style>
+    #list {
+      max-height: 200px;
+      overflow-y: scroll;
+      border: 0px solid #ccc;
+      border-radius: 10px;
+      background-color: #303030;
+      position: relative;
+      display: block;
+      text-decoration: none;
+      padding-left: 10px;
+      list-style-type: none;
+      margin: 5px
+    }
+
+    #list li {
+      cursor: pointer;
+    }
+
+    #list li:hover {
+      color: white;
+    }
+
+    .selected {
+      background-color: #f0f0f0; /* Highlight the selected item with a different background color */
+    }
+
+    .sl-item {
+      flex-shrink: 0;
+    }
+  </style>
+
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="../../../../index.html">Home</a>
+        <a href="../../../about/">About</a>
+        <a href="#">Articles</a>
+        <a href="https://github.com/mirusausiliq/facidolproject/" target="_blank"
+          >Github</a
+        >
+        <a href="https://discord.gg/wSECrwgqhV" target="_blank">Discord</a>
+        <a href="https://bmc.link/mirusausilq" target="_blank">Donate</a>
+      </nav>
+      <h1>Facidol Project</h1>
+      <p>Online Formosan Languages Learning Community.</p>
+    </header>
+
+    <!-- Main -->
+    <div>
+      <div class="notice">
+        <h2>Rukai Dictionary</h2>
+        <div>
+          <button type="button" id="SearchBtn">
+            Search
+          </button>
+          <input type="text" id="SearchInput" placeholder="Enter..." />
+          <ul id="list"></ul>
+        </div>
+  
+        <div id="raw"></div>
+      </div>
+      <div class="notice">
+        <p>© 2019-2023 Mirusa Usiliq & Facidol Dictionary. All rights reserved.</p>
+      </div>
+
+      <script>
+        $(document).ready(function () {
+          const ipaData = {
+            a: "a",
+            b: "b",
+            c: "t\u0361s",
+            d: "ɬ",
+            e: "ə",
+            f: "f",
+            //g: " -",
+            h: "h",
+            i: "i",
+            //j: " -",
+            k: "k",
+            l: "l",
+            m: "m",
+            n: "n",
+            ng: "ŋ",
+            o: "o",
+            p: "p",
+            //q: " -",
+            r: "ɾ",
+            s: "s",
+            t: "t",
+            u: "u",
+            v: "v",
+            w: "w",
+            x: "x",
+            y: "j",
+            //z: " -",
+            "'": "ʡ",
+            "^": "ʔ", // '
+            ":": "ː", // ^
+            " ": " ",
+          };
+
+          const originURL =
+            "https://hts.ithuan.tw/%E6%96%87%E6%9C%AC%E7%9B%B4%E6%8E%A5%E5%90%88%E6%88%90?%E6%9F%A5%E8%A9%A2%E8%85%94%E5%8F%A3=Pangcah&%E6%9F%A5%E8%A9%A2%E8%AA%9E%E5%8F%A5="; // Your origin URL
+
+          const amisMDURL = "https://amis.moedict.tw/#:";
+
+          const jsonURL = "rukai.json"; // Replace with your JSON file URL
+
+          function generateIPA(word) {
+            // Convert the word to lowercase for case-insensitive lookup
+            const lowercaseWord = word.toLowerCase();
+
+            // Initialize an empty IPA string to store the IPA representation
+            let ipaResult = "";
+
+            // Loop through each character of the word
+            for (let i = 0; i < lowercaseWord.length; i++) {
+              const character = lowercaseWord[i];
+
+              // Check if the character exists in the ipaData JSON
+              if (ipaData.hasOwnProperty(character)) {
+                if (lowercaseWord[i] == "n" && lowercaseWord[i + 1] == "g") {
+                  ipaResult += ipaData["ng"];
+                  i++;
+                } else {
+                  ipaResult += ipaData[character];
+                }
+              } else {
+                // If the character is not found in the ipaData JSON, you can handle it based on your requirement.
+                // For simplicity, you can skip the character or use a placeholder, like the character itself.
+                //ipaRepresentation += character;
+                continue;
+              }
+            }
+
+            return ipaResult;
+          }
+
+          const renderJson = (jsonData, searchWord) => {
+            $("#raw").empty();
+
+            // Search for the title in the JSON data
+            const entry = jsonData.find(
+              (entry) => entry.headword === searchWord
+            );
+
+            // Start
+            if (entry) {
+              let html = `
+                <h3>${entry.headword}</h3>
+                <ul>
+                  <li><p><span>等級 Level: </span><span>${
+                    entry.level
+                  }</span></p></li>
+                  <li><p><span>詞類 Part of Speech: </span><span>Unknown (未知)</span></p></li>
+                  <li><p><span>詞根 Stem: </span><span>${
+                    entry.stem
+                  }</span></p></li>
+                  <li><p><span>國際音標 IPA: </span><span>/${generateIPA(
+                    entry.headword
+                  )}/</span></p></li>
+                  <li><p><span>語言 Language: </span><span>Rukai 魯凱語</span></p></li>
+                  <li><p><span>方言 Dialect: </span><span>Unknown (未知)</span></p></li>
+                </ul>
+                <h4>定義 Definition</h4>
+                  <ul>
+                    <li><p>${entry.definition}</p></li>
+                  </ul>
+                <h4>變化 Conjugation</h4>
+                <p>由於作者本人不知魯凱語動詞變化規則故目前無法顯示</p>
+                <h4>參考 Reference</h4>
+                  <ul>
+                    <li><a href="${originURL}${
+                entry.headword
+              }" target="_blank">單字發音</a></li>
+                    <li>
+                      <a href="${amisMDURL}${entry.headword}">阿美語萌典 蔡中涵大詞典 - ${entry.headword}</a>
+                    </li>
+                    <li>
+                      <a href="https://www.facebook.com/groups/ypspt">Pipalofasaran to Sowal no Pangcah/'Amis 台灣阿美族語言永續發展學會</a>
+                    </li>
+                    <li>
+                      吳明義 Namoh Rata (2019) O Citing no Amis 
+                    </li>
+                    <li>
+                      朱清義 Kolas Foting (2020) O Lalelo^ no Sowal no Pangcah 新觀念阿美語語法
+                    </li>
+                    <li>
+                      吳靜蘭 Wu, Jinglan (2022) O Kasawail no Sowal ato Lalelo no Pipasifana' 阿美語詞類及其教學
+                    </li>
+                    <li>
+                      朱珍靜 Dakoc Lamelo (2022) 阿美語中的台灣閩南語及日語借詞
+                    </li>
+                    <li>
+                      高清玄 Norman (2022) O Pitodongan to Caciyaw no 'Amis 阿美族語簡易文法
+                    </li>
+                  </ul>
+                <h4>貢獻 Credits</h4>
+                  <ul>
+                    <li>Creator - <a href="https://github.com/mirusausiliq" target="_blank">mirusausiliq</a></li>
+                    <li>Dictionary Data - <a href="https://e-dictionary.ilrdf.org.tw/index.htm" target="_blank">ILRDF E-Dictionary (Rukai)</a></li>
+                  </ul>
+              `;
+
+              $("#raw").append(html);
+              // Attach the click event to the play button after it is added to the DOM
+              $("#playAudio").on("click", () => {
+                audio.play();
+              });
+            } else {
+              // If the title is not found, display a message
+              $("#raw").html(`<p>"${searchWord}" is not found.</p>`);
+            }
+          };
+
+          $.getJSON(jsonURL, function (data) {
+            const jsonData = data;
+
+            const handleSearch = () => {
+              const searchWord = $("#SearchInput").val().trim().toLowerCase();
+
+              if (searchWord) {
+                renderJson(jsonData, searchWord);
+              }
+            };
+
+            $("#SearchBtn").on("click", handleSearch);
+
+            $("#SearchInput").on("keypress", function (event) {
+              if (event.which === 13) {
+                handleSearch();
+              }
+            });
+
+            // Bind the input event for autocomplete
+            $("#SearchInput").on("input", function () {
+              const inputText = $(this).val().trim().toLowerCase();
+              const matchingWords = jsonData.filter(
+                (entry) =>
+                  entry.headword.startsWith(inputText) ||
+                  entry.definition.split().includes(inputText)
+              );
+
+              if (inputText === "") {
+                $("#list").html("");
+              } else {
+                const autocompleteItems = matchingWords
+                  .map((entry) => `<li>${entry.headword}</li>`)
+                  .join("");
+                $("#list").html(autocompleteItems);
+              }
+            });
+
+            $("#list").on("click", "li", function (event) {
+              const selectedWord = $(this).text();
+              $("#SearchInput").val(selectedWord);
+              $("#list").html("");
+              handleSearch();
+            });
+          }).fail(function (jqxhr, textStatus, error) {
+            console.error("Error loading JSON data: ", error);
+          });
+        });
+      </script>
+    </div>
+
+    <!-- footer -->
+  </body>
+</html>
