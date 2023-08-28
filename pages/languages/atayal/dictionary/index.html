@@ -133,15 +133,15 @@
         $(document).ready(function () {
           const ipaData = {
             a: "a",
-            b: "b",
+            b: "β",
             c: "t\u0361s",
-            d: "ɬ",
+            //d: "",
             e: "ə",
-            f: "f",
-            g: " -",
-            h: "h",
+            //f: "",
+            g: "ɣ",
+            h: "ɦ",
             i: "i",
-            j: " -",
+            //j: "",
             k: "k",
             l: "l",
             m: "m",
@@ -149,7 +149,7 @@
             ng: "ŋ",
             o: "o",
             p: "p",
-            q: " -",
+            q: "q",
             r: "ɾ",
             s: "s",
             t: "t",
@@ -158,12 +158,13 @@
             w: "w",
             x: "x",
             y: "j",
-            z: " -",
-            "'": "ʡ",
-            "^": "ʔ", // '
-            ":": "ː", // ^
+            z: "z",
+            "'": "ʔ", // '
+            ":": "ː", 
             " ": " ",
           };
+
+          const consonants = ["b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "ng", "p", "q", "r", "s", "t", "v", "x", "z", "'"];
 
           const originURL =
             "https://hts.ithuan.tw/%E6%96%87%E6%9C%AC%E7%9B%B4%E6%8E%A5%E5%90%88%E6%88%90?%E6%9F%A5%E8%A9%A2%E8%85%94%E5%8F%A3=Atayal&%E6%9F%A5%E8%A9%A2%E8%AA%9E%E5%8F%A5="; // Your origin URL
@@ -180,7 +181,7 @@
             let ipaResult = "";
 
             // Loop through each character of the word
-            for (let i = 0; i < lowercaseWord.length; i++) {
+            for (var i = 0; i < lowercaseWord.length; i++) {
               const character = lowercaseWord[i];
 
               // Check if the character exists in the ipaData JSON
@@ -192,9 +193,6 @@
                   ipaResult += ipaData[character];
                 }
               } else {
-                // If the character is not found in the ipaData JSON, you can handle it based on your requirement.
-                // For simplicity, you can skip the character or use a placeholder, like the character itself.
-                //ipaRepresentation += character;
                 continue;
               }
             }
