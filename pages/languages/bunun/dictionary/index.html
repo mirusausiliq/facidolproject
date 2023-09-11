@@ -134,12 +134,12 @@
           const ipaData = {
             a: "a",
             b: "b",
-            c: "t\u0361s",
-            d: "ɬ",
-            e: "ə",
-            f: "f",
-            //g: " -",
-            h: "h",
+            c: "ʦ",
+            d: "d",
+            e: "e",
+            //f: " ",
+            //g: " ",
+            h: "x",
             i: "i",
             //j: " -",
             k: "k",
@@ -149,8 +149,8 @@
             ng: "ŋ",
             o: "o",
             p: "p",
-            //q: " -",
-            r: "ɾ",
+            q: "q",
+            //r: " ",
             s: "s",
             t: "t",
             u: "u",
@@ -158,10 +158,10 @@
             w: "w",
             x: "x",
             y: "j",
-            //z: " -",
-            "'": "ʡ",
-            "^": "ʔ", // '
+            z: "ð",
+            "'": "ʔ", // '
             ":": "ː", // ^
+            "-": "-",
             " ": " ",
           };
 
@@ -187,6 +187,26 @@
               if (ipaData.hasOwnProperty(character)) {
                 if (lowercaseWord[i] == "n" && lowercaseWord[i + 1] == "g") {
                   ipaResult += ipaData["ng"];
+                  i++;
+                } else if (lowercaseWord[i] == "a" && lowercaseWord[i + 1] == "a")  {
+                  ipaResult += ipaData["a"];
+                  ipaResult += ipaData[":"];
+                  i++;
+                } else if (lowercaseWord[i] == "i" && lowercaseWord[i + 1] == "i")  {
+                  ipaResult += ipaData["i"];
+                  ipaResult += ipaData[":"];
+                  i++;
+                } else if (lowercaseWord[i] == "u" && lowercaseWord[i + 1] == "u")  {
+                  ipaResult += ipaData["u"];
+                  ipaResult += ipaData[":"];
+                  i++;
+                } else if (lowercaseWord[i] == "e" && lowercaseWord[i + 1] == "e")  {
+                  ipaResult += ipaData["e"];
+                  ipaResult += ipaData[":"];
+                  i++;
+                } else if (lowercaseWord[i] == "o" && lowercaseWord[i + 1] == "o")  {
+                  ipaResult += ipaData["o"];
+                  ipaResult += ipaData[":"];
                   i++;
                 } else {
                   ipaResult += ipaData[character];
@@ -215,50 +235,68 @@
               let html = `
                 <h3>${entry.headword}</h3>
                 <ul>
-                  <li><p><span>等級 Level: </span><span>${
-                    entry.level
-                  }</span></p></li>
-                  <li><p><span>詞類 Part of Speech: </span><span>Unknown (未知)</span></p></li>
-                  <li><p><span>詞根 Stem: </span><span>${
-                    entry.stem
-                  }</span></p></li>
-                  <li><p><span>國際音標 IPA: </span><span>/${generateIPA(
-                    entry.headword
-                  )}/</span></p></li>
-                  <li><p><span>語言 Language: </span><span>Bunun 布農語</span></p></li>
-                  <li><p><span>方言 Dialect: </span><span>Unknown (未知)</span></p></li>
+                  <li>
+                    詞類 Part of Speech: Unknown (未知)
+                  </li>
+                  <li>
+                    詞根 Stem: ${entry.stem}
+                  </li>
+                  <li>
+                    國際音標 IPA: /${generateIPA(entry.headword)}/
+                  </li>
+                  <li>
+                    語言 Language: Bunun 布農語
+                  </li>
+                  <li>
+                    方言 Dialect: Unknown (未知)
+                  </li>
+                  <li>
+                    等級 Level: A1 (初級)
+                  </li>
+                  <li>
+                    重要性 Importance: ${entry.level}
+                  </li>
                 </ul>
                 <h4>定義 Definition</h4>
-                  <ul>
-                    <li><p>${entry.definition}</p></li>
-                  </ul>
+                <ul>
+                  <li>${entry.definition}</li>
+                </ul>
                 <h4>變化 Conjugation</h4>
                 <p>由於作者本人不知布農語動詞變化規則故目前無法顯示</p>
                 <h4>參考 Reference</h4>
                   <ul>
-                    <li><a href="${originURL}${
-                entry.headword
-              }" target="_blank">單字發音</a></li>
                     <li>
-                      <a href="${amisMDURL}${entry.headword}">阿美語萌典 蔡中涵大詞典 - ${entry.headword}</a>
+                      <a href="${originURL}${entry.headword}" target="_blank">單字發音</a>
                     </li>
                     <li>
-                      <a href="https://www.facebook.com/groups/ypspt">Pipalofasaran to Sowal no Pangcah/'Amis 台灣阿美族語言永續發展學會</a>
+                      <a href="https://www.facebook.com/TaiwanBunun">TBSMTM 臺灣布農族語言學會</a>
                     </li>
                     <li>
-                      吳明義 Namoh Rata (2019) O Citing no Amis 
+                      余榮德 Tiang, Istasipal, Takbanuaz (2016) 丹群布農族語詞句典 Isia Bunun MalastakiVatan tu Patpatasan
                     </li>
                     <li>
-                      朱清義 Kolas Foting (2020) O Lalelo^ no Sowal no Pangcah 新觀念阿美語語法
+                      張玉發 Manias Istasipal (2016) 巒群布農語簡易詞典  
                     </li>
                     <li>
-                      吳靜蘭 Wu, Jinglan (2022) O Kasawail no Sowal ato Lalelo no Pipasifana' 阿美語詞類及其教學
+                      <a href="http://klokah-file.com/111/布農語-語法概論.pdf">布農語語法概論 General Bunun Grammar</a>
                     </li>
                     <li>
-                      朱珍靜 Dakoc Lamelo (2022) 阿美語中的台灣閩南語及日語借詞
+                      <a href="http://lokahsu.org.tw/resource/book/senior/18_senior_book.pdf">族語教材高中版 - 卓群布農語</a>
                     </li>
                     <li>
-                      高清玄 Norman (2022) O Pitodongan to Caciyaw no 'Amis 阿美族語簡易文法
+                      <a href="http://lokahsu.org.tw/resource/book/senior/19_senior_book.pdf">族語教材高中版 - 卡群布農語</a>
+                    </li>
+                    <li>
+                      <a href="http://lokahsu.org.tw/resource/book/senior/20_senior_book.pdf">族語教材高中版 - 丹群布農語</a>
+                    </li>
+                    <li>
+                      <a href="http://lokahsu.org.tw/resource/book/senior/21_senior_book.pdf">族語教材高中版 - 巒群布農語</a>
+                    </li>
+                    <li>
+                      <a href="http://lokahsu.org.tw/resource/book/senior/22_senior_book.pdf">族語教材高中版 - 郡群布農語</a>
+                    </li>
+                    <li>
+                      布農語聖經
                     </li>
                   </ul>
                 <h4>貢獻 Credits</h4>

@@ -213,32 +213,41 @@
             // Start
             if (entry) {
               let html = `
-                <h3>${entry.headword}</h3>
+              <h3>${entry.headword}</h3>
                 <ul>
-                  <li><p><span>等級 Level: </span><span>${
-                    entry.level
-                  }</span></p></li>
-                  <li><p><span>詞類 Part of Speech: </span><span>Unknown (未知)</span></p></li>
-                  <li><p><span>詞根 Stem: </span><span>${
-                    entry.stem
-                  }</span></p></li>
-                  <li><p><span>國際音標 IPA: </span><span>/${generateIPA(
-                    entry.headword
-                  )}/</span></p></li>
-                  <li><p><span>語言 Language: </span><span>Amis(Pangcah) 阿美語</span></p></li>
-                  <li><p><span>方言 Dialect: </span><span>Unknown (未知)</span></p></li>
+                  <li>
+                    詞類 Part of Speech: Unknown (未知)
+                  </li>
+                  <li>
+                    詞根 Stem: ${entry.stem}
+                  </li>
+                  <li>
+                    國際音標 IPA: /${generateIPA(entry.headword)}/
+                  </li>
+                  <li>
+                    語言 Language: Amis(Pangcah) 阿美語
+                  </li>
+                  <li>
+                    方言 Dialect: Unknown (未知)
+                  </li>
+                  <li>
+                    等級 Level: A1 (初級)
+                  </li>
+                  <li>
+                    重要性 Importance: ${entry.level}
+                  </li>
                 </ul>
                 <h4>定義 Definition</h4>
                   <ul>
-                    <li><p>${entry.definition}</p></li>
+                    <li>${entry.definition}</li>
                   </ul>
                 <h4>變化 Conjugation</h4>
                 <p>由於作者本人不知阿美語動詞變化規則故目前無法顯示</p>
                 <h4>參考 Reference</h4>
                   <ul>
-                    <li><a href="${originURL}${
-                entry.headword
-              }" target="_blank">單字發音</a></li>
+                    <li>
+                      <a href="${originURL}${entry.headword}" target="_blank">單字發音</a>
+                    </li>
                     <li>
                       <a href="${amisMDURL}${entry.headword}">阿美語萌典 蔡中涵大詞典 - ${entry.headword}</a>
                     </li>
